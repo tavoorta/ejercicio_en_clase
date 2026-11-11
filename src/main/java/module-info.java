@@ -2,6 +2,7 @@ module org.example.ejercicio_en_clase {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.naming;
     requires mysql.connector.j;
     requires static lombok;
 
