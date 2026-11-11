@@ -8,6 +8,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.example.ejercicio_en_clase.SceneNavigator;
+import org.example.ejercicio_en_clase.models.Estado;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,11 +22,11 @@ public class CreateController implements Initializable {
     @FXML
     private DatePicker dpFecha;
     @FXML
-    private ComboBox<String> cbEstado;
+    private ComboBox<Estado> cbEstado;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cbEstado.getItems().addAll("Pendiente", "En curso", "Completado");
+        cbEstado.getItems().addAll(Estado.values());
     }
 
     @FXML

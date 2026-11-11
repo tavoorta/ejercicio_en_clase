@@ -25,6 +25,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Equipo, String> colEstado;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -34,8 +35,8 @@ public class MainController implements Initializable {
             return new SimpleStringProperty(String.valueOf(id));
         });
         colNombre.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getNombre()));
-        colFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha()));
-        colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstado()));
+        colFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha().toString()));
+        colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstado().toString()));
     }
 
     @FXML
