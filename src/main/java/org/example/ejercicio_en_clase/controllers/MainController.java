@@ -45,5 +45,6 @@ public class MainController implements Initializable {
 
     @FXML
     public void onNuevoButtonClick(ActionEvent actionEvent) {
+        SceneNavigator.navigateTo("create-view.fxml", "Nuevo registro");
     }
 }
