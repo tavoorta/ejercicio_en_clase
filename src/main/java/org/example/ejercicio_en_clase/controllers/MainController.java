@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.example.ejercicio_en_clase.SceneNavigator;
+import org.example.ejercicio_en_clase.data.DAO;
+import org.example.ejercicio_en_clase.data.DataSourceFactory;
+import org.example.ejercicio_en_clase.data.EquipoMysqlDAO;
 import org.example.ejercicio_en_clase.models.Equipo;
 
 import java.net.URL;
@@ -25,6 +28,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Equipo, String> colEstado;
 
+    private final DAO<Equipo> conectarDAO = new EquipoMysqlDAO(DataSourceFactory.getDataSource());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,8 +39,11 @@ public class MainController implements Initializable {
             return new SimpleStringProperty(String.valueOf(id));
         });
         colNombre.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getNombre()));
-        colFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha().toString()));
+        colFecha.setCellValueFactory(c -> new SimpleStringProperty(
+                c.getValue().getFecha() != null ? c.getValue().getFecha().toString() : ""));
         colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstado().toString()));
+
+        tablaRegistros.getItems().setAll(conectarDAO.findAll());
     }
 
     @FXML
