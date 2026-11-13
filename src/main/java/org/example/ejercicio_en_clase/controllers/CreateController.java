@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -29,6 +31,8 @@ public class CreateController implements Initializable {
     private ComboBox<Estado> cbEstado;
     @FXML
     private Label lblTitulo;
+    @FXML
+    private Button btnBorrar;
 
     private DAO<Equipo> dao;
     private Equipo equipo;
@@ -48,6 +52,10 @@ public class CreateController implements Initializable {
             txtDescripcion.setText(equipo.getDescripcion());
             dpFecha.setValue(equipo.getFecha());
             cbEstado.setValue(equipo.getEstado());
+
+            //Se coloca si es distinto de null para que no se muestre cuando se este creando
+            btnBorrar.setVisible(true);
+            btnBorrar.setManaged(true);
         }
     }
 
@@ -84,5 +92,19 @@ public class CreateController implements Initializable {
     @FXML
     public void onCancelarButtonClick(ActionEvent actionEvent) {
         SceneNavigator.navigateToInjection("main-view.fxml", "Main");
+    }
+
+    @FXML
+    public void onBorrarButtonClick(ActionEvent actionEvent) {
+
+        // se coloca e alert para evitar borrar por error
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Borrar registro");
+        alert.setContentText("¿Seguro que quieres borrar \"" + equipo.getNombre() + "\"?");
+
+        if (alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            dao.deleteById(equipo.getId());
+            SceneNavigator.navigateToInjection("main-view.fxml", "Main");
+        }
     }
 }

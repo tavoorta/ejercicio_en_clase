@@ -29,5 +29,6 @@
         </padding>
         <Button onAction="#onGuardarButtonClick" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #1e73e8; -fx-text-fill: white;" text="Guardar" />
         <Button onAction="#onCancelarButtonClick" prefHeight="25.0" prefWidth="101.0" text="Cancelar" />
+        <Button fx:id="btnBorrar" onAction="#onBorrarButtonClick" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #d93025; -fx-text-fill: white;" text="Borrar" visible="false" managed="false" />
     </HBox>
 </VBox>
