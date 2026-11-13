@@ -18,6 +18,7 @@ public class EquipoMysqlDAO implements DAO<Equipo> {
 
     private static String sqlSelect = "SELECT * FROM equipo";
     private static String sqlInsert = "INSERT INTO equipo (Nombre, Descripcion, Fecha, Estado) VALUES (?, ?, ?, ?)";
+    private static String sqlUpdate = "UPDATE equipo SET Nombre = ?, Descripcion = ?, Fecha = ?, Estado = ? WHERE Id = ?";
 
     @Override
     public List<Equipo> findAll() {
@@ -60,6 +61,23 @@ public class EquipoMysqlDAO implements DAO<Equipo> {
             throw new RuntimeException(e);
         }
         return entity;
+    }
+
+    @Override
+    public void update(Equipo entity) {
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+
+            ps.setString(1, entity.getNombre());
+            ps.setString(2, entity.getDescripcion());
+            ps.setDate(3, entity.getFecha() != null ? Date.valueOf(entity.getFecha()) : null);
+            ps.setString(4, entity.getEstado() != null ? entity.getEstado().name() : null);
+            ps.setLong(5, entity.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //region Method Mapper

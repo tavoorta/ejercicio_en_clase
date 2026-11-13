@@ -15,6 +15,6 @@ public class LoginController implements Initializable {
 
     @javafx.fxml.FXML
     public void login(ActionEvent actionEvent) {
-        SceneNavigator.navigateTo("main-view.fxml", "Main");
+        SceneNavigator.navigateToInjection("main-view.fxml", "Main");
     }
 }

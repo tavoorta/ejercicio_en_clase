@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.example.ejercicio_en_clase.SceneNavigator;
 import org.example.ejercicio_en_clase.data.DAO;
-import org.example.ejercicio_en_clase.data.DataSourceFactory;
 import org.example.ejercicio_en_clase.data.EquipoMysqlDAO;
 import org.example.ejercicio_en_clase.models.Equipo;
 
@@ -28,7 +27,11 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Equipo, String> colEstado;
 
-    private final DAO<Equipo> conectarDAO = new EquipoMysqlDAO(DataSourceFactory.getDataSource());
+    private DAO<Equipo> dao;
+
+    public MainController(EquipoMysqlDAO equipoDAO) {
+        this.dao = equipoDAO;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,7 +46,16 @@ public class MainController implements Initializable {
                 c.getValue().getFecha() != null ? c.getValue().getFecha().toString() : ""));
         colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstado().toString()));
 
-        tablaRegistros.getItems().setAll(conectarDAO.findAll());
+        dao.findAll().forEach( (equipo)->{
+            System.out.println(equipo);
+            tablaRegistros.getItems().add(equipo);
+        });
+
+        tablaRegistros.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                SceneNavigator.navigateToInjection("create-view.fxml", "Modificar registro", newSelection);
+            }
+        });
     }
 
     @FXML
@@ -53,6 +65,6 @@ public class MainController implements Initializable {
 
     @FXML
     public void onNuevoButtonClick(ActionEvent actionEvent) {
-        SceneNavigator.navigateTo("create-view.fxml", "Nuevo registro");
+        SceneNavigator.navigateToInjection("create-view.fxml", "Nuevo registro");
     }
 }
